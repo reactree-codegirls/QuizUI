@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quizui/constants.dart';
+import 'package:quizui/services/providers.dart';
 
-class DeleteDialog extends StatelessWidget {
-  const DeleteDialog({ Key? key }) : super(key: key);
+class DeleteDialog extends StatefulWidget {
+  final String id;
 
+  DeleteDialog({required this.id});
+
+  @override
+  State<DeleteDialog> createState() => _DeleteDialogState();
+}
+
+class _DeleteDialogState extends State<DeleteDialog> {
+
+  late ContactProvider contactProvider;
+
+  @override
+  void initState() {
+    contactProvider=Provider.of<ContactProvider>(context,listen: false);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -30,7 +47,10 @@ class DeleteDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(onPressed: ()=>Navigator.of(context).pop(), child: Text("Cancel")),
-                  ElevatedButton(onPressed: (){}, child: Text("OK"))
+                  ElevatedButton(onPressed: (){
+                    contactProvider.deleteContact(widget.id);
+                    Navigator.of(context).pop();
+                  }, child: Text("OK"))
                 ],
               ),
             )

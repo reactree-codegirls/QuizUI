@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quizui/screens/createEditContactScreen.dart';
+import 'package:quizui/services/providers.dart';
 import 'package:quizui/shared/contactContainer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,12 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ListView.separated(
-              itemCount: 10,
-              shrinkWrap: true,
-              itemBuilder: (ctx, i) => ContactContainer(),
-              separatorBuilder: (ctx, i) => SizedBox(
-                height: 10,
+            Consumer<ContactProvider>(
+              builder:(ctx,provider,_)=> ListView.separated(
+                itemCount: provider.contacts.length,
+                shrinkWrap: true,
+                itemBuilder: (ctx, i) => ContactContainer(
+                  contact: provider.contacts[i],
+                ),
+                separatorBuilder: (ctx, i) => SizedBox(
+                  height: 10,
+                ),
               ),
             )
           ],
