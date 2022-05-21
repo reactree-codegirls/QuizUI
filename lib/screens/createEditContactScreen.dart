@@ -41,7 +41,17 @@ class _CreateEditContactScreenState extends State<CreateEditContactScreen> {
 
   File? file;
 
-  onEdit() {}
+  onEdit() {
+    final contact=ContactModel(id: widget.contact!.id,
+        name: nameController.text,
+        email: emailController.text.isEmpty ? null : emailController.text,
+        imagePath: file == null ? null : file!.path,
+        phoneNo: phoneController.text);
+
+    contactProvider.editContact( contact);
+
+    Navigator.of(context).pop();
+  }
 
   onCreate() {
     if (nameController.text.isEmpty || phoneController.text.isEmpty) return;
